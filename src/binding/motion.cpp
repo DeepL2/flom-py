@@ -14,6 +14,16 @@ void define_motion(py::module &m) {
       .def_readwrite("location", &flom::EffectorType::location)
       .def_readwrite("rotation", &flom::EffectorType::rotation);
 
+  m.def("load", [](std::string const &filename) {
+    std::ifstream f(filename, std::ios::binary);
+    return flom::Motion::load(f);
+  });
+  m.def("load_json", [](std::string const &filename) {
+    std::ifstream f(filename);
+    return flom::Motion::load_json(f);
+  });
+  m.def("load_json_string", &flom::Motion::load_json_string);
+
   py::class_<flom::Motion>(m, "Motion")
       .def(py::init<std::string>(), py::arg("model"))
       .def("dump",
