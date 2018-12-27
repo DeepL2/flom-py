@@ -2,6 +2,8 @@
 
 #include <pybind11/pybind11.h>
 
+#include "declarations.hpp"
+
 namespace flom_py {
 
 namespace py = pybind11;

@@ -1,5 +1,5 @@
-#ifndef FLOM_PY_INTERPOLATE_HPP
-#define FLOM_PY_INTERPOLATE_HPP
+#ifndef FLOM_PY_DECLARATIONS_HPP
+#define FLOM_PY_DECLARATIONS_HPP
 
 #include <pybind11/pybind11.h>
 

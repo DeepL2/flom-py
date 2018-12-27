@@ -10,7 +10,7 @@
 
 #include <string>
 
-#include "interpolate.hpp"
+#include "declarations.hpp"
 
 namespace py = pybind11;
 
