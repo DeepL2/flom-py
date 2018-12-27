@@ -7,6 +7,8 @@ namespace flom_py {
 
 void define_interpolate(pybind11::module&);
 void define_enums(pybind11::module&);
+void define_motion(pybind11::module&);
+void define_effector(pybind11::module&);
 
 }
 
