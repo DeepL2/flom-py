@@ -3,6 +3,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
+#include <pybind11/operators.h>
 
 #include <boost/qvm/vec_access.hpp>
 #include <boost/qvm/quat_access.hpp>
@@ -56,7 +57,8 @@ PYBIND11_MODULE(flom, m) {
     .def("is_in_range_at", &flom::Motion::is_in_range_at)
     .def("length", &flom::Motion::length)
     .def("joint_names", &flom::Motion::joint_names)
-    .def("effector_names", &flom::Motion::effector_names);
+    .def("effector_names", &flom::Motion::effector_names)
+    .def(py::self == py::self);
 
   py::class_<flom::KeyRange<std::string>>(m, "KeyRange")
     .def("__iter__", [](flom::KeyRange<std::string>& range) {
@@ -67,11 +69,31 @@ PYBIND11_MODULE(flom, m) {
     .def_readwrite("positions", &flom::Frame::positions)
     .def_readwrite("effectors", &flom::Frame::effectors)
     .def("joint_names", &flom::Frame::joint_names)
-    .def("effector_names", &flom::Frame::effector_names);
+    .def("effector_names", &flom::Frame::effector_names)
+    .def(py::self == py::self)
+    .def(py::self != py::self)
+    .def(py::self += py::self)
+    .def(py::self + py::self)
+    .def(py::self -= py::self)
+    .def(py::self - py::self)
+    .def(py::self *= double())
+    .def(py::self * double())
+    .def(py::self *= float())
+    .def(py::self * float());
 
   py::class_<flom::Effector>(m, "Effector")
     .def_readwrite("location", &flom::Effector::location)
-    .def_readwrite("rotation", &flom::Effector::rotation);
+    .def_readwrite("rotation", &flom::Effector::rotation)
+    .def(py::self == py::self)
+    .def(py::self != py::self)
+    .def(py::self += py::self)
+    .def(py::self + py::self)
+    .def(py::self -= py::self)
+    .def(py::self - py::self)
+    .def(py::self *= double())
+    .def(py::self * double())
+    .def(py::self *= float())
+    .def(py::self * float());
 
   py::class_<flom::Location>(m, "Location")
     .def_readwrite("weight", &flom::Location::weight)
@@ -87,7 +109,9 @@ PYBIND11_MODULE(flom, m) {
         boost::qvm::X(l.vec) = data[0];
         boost::qvm::Y(l.vec) = data[1];
         boost::qvm::Z(l.vec) = data[2];
-      });
+      })
+    .def(py::self == py::self);
+
 
   py::class_<flom::Rotation>(m, "Rotation")
     .def_readwrite("weight", &flom::Rotation::weight)
@@ -105,5 +129,6 @@ PYBIND11_MODULE(flom, m) {
         boost::qvm::X(l.quat) = data[1];
         boost::qvm::Y(l.quat) = data[2];
         boost::qvm::Z(l.quat) = data[3];
-      });
+      })
+    .def(py::self == py::self);
 }
