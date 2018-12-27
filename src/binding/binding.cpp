@@ -1,6 +1,5 @@
 #include <flom/flom.hpp>
 
-#include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
@@ -27,27 +26,9 @@ PYBIND11_MODULE(flom, m) {
   flom_py::define_enums(m);
 
   flom_py::define_motion(m);
+  flom_py::define_ranges(m);
 
-  py::class_<flom::KeyRange<std::string>>(m, "KeyRange")
-      .def("__iter__", [](flom::KeyRange<std::string> &range) {
-        return py::make_iterator(range.begin(), range.end());
-      });
-
-  py::class_<flom::Frame>(m, "Frame")
-      .def_readwrite("positions", &flom::Frame::positions)
-      .def_readwrite("effectors", &flom::Frame::effectors)
-      .def("joint_names", &flom::Frame::joint_names)
-      .def("effector_names", &flom::Frame::effector_names)
-      .def(py::self == py::self)
-      .def(py::self != py::self)
-      .def(py::self += py::self)
-      .def(py::self + py::self)
-      .def(py::self -= py::self)
-      .def(py::self - py::self)
-      .def(py::self *= double())
-      .def(py::self * double())
-      .def(py::self *= float())
-      .def(py::self * float());
+  flom_py::define_frame(m);
 
   flom_py::define_effector(m);
 }
