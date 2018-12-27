@@ -2,6 +2,10 @@
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/numpy.h>
+
+#include <boost/qvm/vec_access.hpp>
+#include <boost/qvm/quat_access.hpp>
 
 #include <string>
 
@@ -40,9 +44,35 @@ PYBIND11_MODULE(flom, m) {
 
   py::class_<flom::Location>(m, "Location")
     .def_readwrite("weight", &flom::Location::weight)
-    .def_readwrite("vec", &flom::Location::vec);
+    .def_property("vec", [](flom::Location const& l) {
+        py::array_t<double> ret(3);
+        auto* data = ret.mutable_data();
+        data[0] = boost::qvm::X(l.vec);
+        data[1] = boost::qvm::Y(l.vec);
+        data[2] = boost::qvm::Z(l.vec);
+        return ret;
+      }, [](flom::Location& l, py::array_t<double> const& ary) {
+        auto* data = ary.data();
+        boost::qvm::X(l.vec) = data[0];
+        boost::qvm::Y(l.vec) = data[1];
+        boost::qvm::Z(l.vec) = data[2];
+      });
 
   py::class_<flom::Rotation>(m, "Rotation")
     .def_readwrite("weight", &flom::Rotation::weight)
-    .def_readwrite("quat", &flom::Rotation::quat);
+    .def_property("quat", [](flom::Rotation const& l) {
+        py::array_t<double> ret(4);
+        auto* data = ret.mutable_data();
+        data[0] = boost::qvm::S(l.quat);
+        data[1] = boost::qvm::X(l.quat);
+        data[2] = boost::qvm::Y(l.quat);
+        data[3] = boost::qvm::Z(l.quat);
+        return ret;
+      }, [](flom::Rotation& l, py::array_t<double> const& ary) {
+        auto* data = ary.data();
+        boost::qvm::S(l.quat) = data[0];
+        boost::qvm::X(l.quat) = data[1];
+        boost::qvm::Y(l.quat) = data[2];
+        boost::qvm::Z(l.quat) = data[3];
+      });
 }
