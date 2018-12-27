@@ -54,11 +54,20 @@ PYBIND11_MODULE(flom, m) {
     .def("effector_type", &flom::Motion::effector_type)
     .def("set_effector_type", &flom::Motion::set_effector_type)
     .def("is_in_range_at", &flom::Motion::is_in_range_at)
-    .def("length", &flom::Motion::length);
+    .def("length", &flom::Motion::length)
+    .def("joint_names", &flom::Motion::joint_names)
+    .def("effector_names", &flom::Motion::effector_names);
+
+  py::class_<flom::KeyRange<std::string>>(m, "KeyRange")
+    .def("__iter__", [](flom::KeyRange<std::string>& range) {
+        return py::make_iterator(range.begin(), range.end());
+      });
 
   py::class_<flom::Frame>(m, "Frame")
     .def_readwrite("positions", &flom::Frame::positions)
-    .def_readwrite("effectors", &flom::Frame::effectors);
+    .def_readwrite("effectors", &flom::Frame::effectors)
+    .def("joint_names", &flom::Frame::joint_names)
+    .def("effector_names", &flom::Frame::effector_names);
 
   py::class_<flom::Effector>(m, "Effector")
     .def_readwrite("location", &flom::Effector::location)
