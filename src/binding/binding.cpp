@@ -10,10 +10,13 @@
 
 #include <string>
 
+#include "interpolate.hpp"
+
 namespace py = pybind11;
 
 PYBIND11_MODULE(flom, m) {
   m.doc() = "flom: Motion exchange format";
+
   m.def("load", [](std::string const &filename) {
     std::ifstream f(filename, std::ios::binary);
     return flom::Motion::load(f);
@@ -24,23 +27,7 @@ PYBIND11_MODULE(flom, m) {
   });
   m.def("load_json_string", &flom::Motion::load_json_string);
 
-  m.def(
-      "interpolate",
-      py::overload_cast<double, flom::Location const &, flom::Location const &>(
-          &flom::interpolate));
-  m.def(
-      "interpolate",
-      py::overload_cast<double, flom::Rotation const &, flom::Rotation const &>(
-          &flom::interpolate));
-  m.def(
-      "interpolate",
-      py::overload_cast<double, flom::Effector const &, flom::Effector const &>(
-          &flom::interpolate));
-  m.def("interpolate",
-        py::overload_cast<double, flom::Frame const &, flom::Frame const &>(
-            &flom::interpolate));
-  m.def("interpolate",
-        py::overload_cast<double, double, double>(&flom::interpolate));
+  flom_py::define_interpolate(m);
 
   py::enum_<flom::LoopType>(m, "LoopType")
       .value("None", flom::LoopType::None)
