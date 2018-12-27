@@ -6,6 +6,7 @@
 namespace flom_py {
 
 void define_interpolate(pybind11::module&);
+void define_enums(pybind11::module&);
 
 }
 

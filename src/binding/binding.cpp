@@ -28,14 +28,7 @@ PYBIND11_MODULE(flom, m) {
   m.def("load_json_string", &flom::Motion::load_json_string);
 
   flom_py::define_interpolate(m);
-
-  py::enum_<flom::LoopType>(m, "LoopType")
-      .value("None", flom::LoopType::None)
-      .value("Wrap", flom::LoopType::Wrap);
-
-  py::enum_<flom::CoordinateSystem>(m, "CoordinateSystem")
-      .value("World", flom::CoordinateSystem::World)
-      .value("Local", flom::CoordinateSystem::Local);
+  flom_py::define_enums(m);
 
   py::class_<flom::EffectorType>(m, "EffectorType")
       .def_readwrite("location", &flom::EffectorType::location)
