@@ -22,3 +22,6 @@ endif()
 add_subdirectory(third_party/pybind11)
 # pybind11 headers produce so many errors with strict compiler options
 include_directories(SYSTEM ${PYBIND11_INCLUDE_DIR})
+
+pybind11_add_module(flom MODULE binding.cpp)
+target_link_libraries(flom PRIVATE -lflom)
