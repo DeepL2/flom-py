@@ -21,6 +21,7 @@ PYBIND11_MODULE(flom, m) {
       std::ifstream f(filename);
       return flom::Motion::load_json(f);
     });
+  m.def("load_json_string", &flom::Motion::load_json_string);
 
   py::enum_<flom::LoopType>(m, "LoopType")
     .value("None", flom::LoopType::None)
@@ -44,6 +45,7 @@ PYBIND11_MODULE(flom, m) {
         std::ofstream f(filename);
         motion.dump_json(f);
       })
+    .def("dump_json_string", &flom::Motion::dump_json_string)
     .def("frame_at", &flom::Motion::frame_at)
     .def("loop", &flom::Motion::loop)
     .def("set_loop", &flom::Motion::set_loop)
