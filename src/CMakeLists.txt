@@ -24,9 +24,7 @@ add_subdirectory(third_party/pybind11)
 include_directories(SYSTEM ${PYBIND11_INCLUDE_DIR})
 
 include(cmake/clang-format.cmake)
-include(cmake/clang-tidy.cmake)
 
 pybind11_add_module(flom MODULE binding.cpp)
 target_link_libraries(flom PRIVATE -lflom)
 enable_clang_format(flom)
-enable_clang_tidy(flom)
