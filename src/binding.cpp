@@ -40,7 +40,11 @@ PYBIND11_MODULE(flom, m) {
         std::ofstream f(filename);
         motion.dump_json(f);
       })
-    .def("frame_at", &flom::Motion::frame_at);
+    .def("frame_at", &flom::Motion::frame_at)
+    .def("loop", &flom::Motion::loop)
+    .def("set_loop", &flom::Motion::set_loop)
+    .def("model_id", &flom::Motion::model_id)
+    .def("set_model_id", &flom::Motion::set_model_id);
 
   py::class_<flom::Frame>(m, "Frame")
     .def_readwrite("positions", &flom::Frame::positions)
