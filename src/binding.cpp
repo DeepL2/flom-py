@@ -24,6 +24,12 @@ PYBIND11_MODULE(flom, m) {
     });
   m.def("load_json_string", &flom::Motion::load_json_string);
 
+  m.def("interpolate", py::overload_cast<double, flom::Location const&, flom::Location const&>(&flom::interpolate));
+  m.def("interpolate", py::overload_cast<double, flom::Rotation const&, flom::Rotation const&>(&flom::interpolate));
+  m.def("interpolate", py::overload_cast<double, flom::Effector const&, flom::Effector const&>(&flom::interpolate));
+  m.def("interpolate", py::overload_cast<double, flom::Frame const&, flom::Frame const&>(&flom::interpolate));
+  m.def("interpolate", py::overload_cast<double, double, double>(&flom::interpolate));
+
   py::enum_<flom::LoopType>(m, "LoopType")
     .value("None", flom::LoopType::None)
     .value("Wrap", flom::LoopType::Wrap);
