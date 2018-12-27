@@ -44,7 +44,9 @@ PYBIND11_MODULE(flom, m) {
     .def("loop", &flom::Motion::loop)
     .def("set_loop", &flom::Motion::set_loop)
     .def("model_id", &flom::Motion::model_id)
-    .def("set_model_id", &flom::Motion::set_model_id);
+    .def("set_model_id", &flom::Motion::set_model_id)
+    .def("is_in_range_at", &flom::Motion::is_in_range_at)
+    .def("length", &flom::Motion::length);
 
   py::class_<flom::Frame>(m, "Frame")
     .def_readwrite("positions", &flom::Frame::positions)
