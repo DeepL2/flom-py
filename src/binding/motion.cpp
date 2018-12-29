@@ -1,4 +1,5 @@
 #include <flom/motion.hpp>
+#include <flom/range.hpp>
 
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
@@ -38,6 +39,7 @@ void define_motion(py::module &m) {
            })
       .def("dump_json_string", &flom::Motion::dump_json_string)
       .def("frame_at", &flom::Motion::frame_at)
+      .def("frames", &flom::Motion::frames)
       .def("loop", &flom::Motion::loop)
       .def("set_loop", &flom::Motion::set_loop)
       .def("model_id", &flom::Motion::model_id)
