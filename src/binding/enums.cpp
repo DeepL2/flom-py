@@ -29,7 +29,7 @@ namespace py = pybind11;
 
 void define_enums(py::module &m) {
   py::enum_<flom::LoopType>(m, "LoopType")
-      .value("None", flom::LoopType::None)
+      .value("None_", flom::LoopType::None)
       .value("Wrap", flom::LoopType::Wrap);
 
   py::enum_<flom::CoordinateSystem>(m, "CoordinateSystem")
