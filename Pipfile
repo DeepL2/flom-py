@@ -11,3 +11,6 @@ flom = {editable = true,path = "."}
 
 [requires]
 python_version = "3.7"
+
+[scripts]
+test = "pytest"
