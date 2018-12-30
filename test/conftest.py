@@ -27,8 +27,7 @@ def motion(request):
 
 @pytest.fixture
 def oneshot_motion(motion):
-    # TODO: Use flom.LoopType.None_ or something like that
-    motion.set_loop(getattr(flom.LoopType, 'None'))
+    motion.set_loop(flom.LoopType.None_)
     return motion
 
 @pytest.fixture
