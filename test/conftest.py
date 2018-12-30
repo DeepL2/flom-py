@@ -11,3 +11,11 @@ def oneshot_motion(motion):
     # TODO: Use flom.LoopType.None_ or something like that
     motion.set_loop(getattr(flom.LoopType, 'None'))
     return motion
+
+@pytest.fixture
+def frame():
+    return flom.Frame()
+
+@pytest.fixture
+def effector():
+    return flom.Effector()

@@ -3,6 +3,7 @@
 #include <pybind11/numpy.h>
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <boost/qvm/quat_access.hpp>
 #include <boost/qvm/vec_access.hpp>
@@ -15,6 +16,7 @@ namespace py = pybind11;
 
 void define_effector(py::module &m) {
   py::class_<flom::Effector>(m, "Effector")
+      .def(py::init<>())
       .def_readwrite("location", &flom::Effector::location)
       .def_readwrite("rotation", &flom::Effector::rotation)
       .def(py::self == py::self)

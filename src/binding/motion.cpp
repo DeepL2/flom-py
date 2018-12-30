@@ -3,6 +3,7 @@
 
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include "declarations.hpp"
 
@@ -26,7 +27,9 @@ void define_motion(py::module &m) {
   m.def("load_json_string", &flom::Motion::load_json_string);
 
   py::class_<flom::Motion>(m, "Motion")
-      .def(py::init<std::string>(), py::arg("model"))
+      .def(py::init<std::unordered_set<std::string>,
+                    std::unordered_set<std::string>, std::string>(),
+           py::arg("joint_names"), py::arg("effector_names"), py::arg("model"))
       .def("dump",
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename, std::ios::binary);
