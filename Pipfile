@@ -5,6 +5,8 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
+flake8 = "*"
+autopep8 = "*"
 
 [packages]
 flom = {editable = true,path = "."}
@@ -14,3 +16,5 @@ python_version = "3.7"
 
 [scripts]
 test = "pytest"
+fix = "autopep8 -ivr ."
+lint = "flake8 ."
