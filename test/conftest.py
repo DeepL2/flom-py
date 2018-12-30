@@ -2,6 +2,6 @@ import pytest
 
 import flom
 
-@pytest.fixture
-def motion():
-    return flom.load('test/data/sample.fom')
+@pytest.fixture(params=['sample.fom', 'empty.fom'])
+def motion(request):
+    return flom.load(f'test/data/{request.param}')
