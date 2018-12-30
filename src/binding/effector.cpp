@@ -16,6 +16,7 @@ namespace py = pybind11;
 
 void define_effector(py::module &m) {
   py::class_<flom::Effector>(m, "Effector")
+      .def(py::init<>())
       .def_readwrite("location", &flom::Effector::location)
       .def_readwrite("rotation", &flom::Effector::rotation)
       .def(py::self == py::self)

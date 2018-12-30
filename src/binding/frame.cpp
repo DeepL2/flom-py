@@ -12,6 +12,7 @@ namespace py = pybind11;
 
 void define_frame(py::module &m) {
   py::class_<flom::Frame>(m, "Frame")
+      .def(py::init<>())
       .def_readwrite("positions", &flom::Frame::positions)
       .def_readwrite("effectors", &flom::Frame::effectors)
       .def("joint_names", &flom::Frame::joint_names)
