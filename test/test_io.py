@@ -29,6 +29,7 @@ def test_dump_load(motion):
 
     assert loaded == motion
 
+
 def test_dump_load_json(motion):
     with NamedTemporaryFile() as f:
         motion.dump_json(f.name)
