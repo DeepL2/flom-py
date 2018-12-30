@@ -3,6 +3,7 @@
 #include <pybind11/numpy.h>
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 #include <boost/qvm/quat_access.hpp>
 #include <boost/qvm/vec_access.hpp>
