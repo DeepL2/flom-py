@@ -26,6 +26,8 @@ namespace py = pybind11;
 PYBIND11_MODULE(flom, m) {
   m.doc() = "flom: Motion exchange format";
 
+  flom_py::define_errors(m);
+
   flom_py::define_interpolate(m);
   flom_py::define_enums(m);
 
