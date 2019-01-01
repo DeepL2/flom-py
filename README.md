@@ -8,7 +8,7 @@
 [![C++ Standard](https://img.shields.io/badge/C%2B%2B-17-brightgreen.svg?style=flat-square)](https://isocpp.org/std/status)
 
 
-Python binding of [flom](DeepL2/flom)
+Python binding of [flom](https://github.com/DeepL2/flom)
 
 ## Installation
 
