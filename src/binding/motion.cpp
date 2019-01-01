@@ -77,6 +77,7 @@ void define_motion(py::module &m) {
            py::arg("frame"))
       .def("delete_keyframe", &flom::Motion::delete_keyframe, py::arg("t"),
            py::arg("loose") = true)
+      .def("keyframes", &flom::Motion::keyframes)
       .def(py::self == py::self);
 }
 
