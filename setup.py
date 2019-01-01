@@ -81,7 +81,7 @@ with open("README.md") as f:
 
 setup(
     name='flom',
-    version='0.1',
+    version='0.2',
     author='coord.e',
     author_email='me@coord-e.com',
     description='flom: Motion exchange format',
@@ -90,7 +90,7 @@ setup(
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
     classifiers=[
-            'Development Status :: 3 - Alpha',
+            'Development Status :: 4 - Beta',
             'Intended Audience :: Developers',
             'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
             'Operating System :: POSIX',
