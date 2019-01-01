@@ -11,15 +11,6 @@
 
 Python binding of [flom](https://github.com/DeepL2/flom)
 
-## Installation
-
-Currently, there is no wheel distribution. So you need [Build Requirements](https://github.com/DeepL2/flom#build-requirements) of flom before installation.
-
-With latest [flom](https://github.com/DeepL2/flom) is installed, run
-
-```shell
-pip install flom
-```
 
 ## Installation
 
