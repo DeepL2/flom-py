@@ -44,5 +44,5 @@ def test_keyframe_range_assign(oneshot_motion):
     empty_frame = oneshot_motion.new_keyframe()
     for _, ref in oneshot_motion.keyframes():
         ref.set(empty_frame)
-    for t, ref in oneshot_motion.keyframes():
+    for _, ref in oneshot_motion.keyframes():
         assert ref.get() == empty_frame
