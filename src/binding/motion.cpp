@@ -72,6 +72,9 @@ void define_motion(py::module &m) {
       .def("length", &flom::Motion::length)
       .def("joint_names", &flom::Motion::joint_names)
       .def("effector_names", &flom::Motion::effector_names)
+      .def("new_keyframe", &flom::Motion::new_keyframe)
+      .def("insert_keyframe", &flom::Motion::insert_keyframe)
+      .def("delete_keyframe", &flom::Motion::delete_keyframe)
       .def(py::self == py::self);
 }
 
