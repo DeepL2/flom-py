@@ -33,3 +33,16 @@ def test_key_range_effector(motion):
 def test_frame_range(oneshot_motion):
     for i, frame in enumerate(oneshot_motion.frames(1)):
         assert frame == oneshot_motion.frame_at(i)
+
+
+def test_keyframe_range(oneshot_motion):
+    for t, ref in oneshot_motion.keyframes():
+        assert ref.get() == oneshot_motion.frame_at(t)
+
+
+def test_keyframe_range_assign(oneshot_motion):
+    empty_frame = oneshot_motion.new_keyframe()
+    for _, ref in oneshot_motion.keyframes():
+        ref.set(empty_frame)
+    for t, ref in oneshot_motion.keyframes():
+        assert ref.get() == empty_frame
