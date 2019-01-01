@@ -23,30 +23,6 @@
 
 #include "declarations.hpp"
 
-namespace pybind11 {
-namespace detail {
-template <> struct type_caster<flom::CheckedFrameRef> {
-public:
-  PYBIND11_TYPE_CASTER(flom::CheckedFrameRef, _("CheckedFrameRef"));
-
-  bool load(handle src, bool) {
-    flom::Frame *p;
-    try {
-      p = src.cast<flom::Frame *>();
-    } catch (const cast_error &) {
-      return false;
-    }
-    value = *p;
-    return true;
-  }
-
-  static handle cast(flom::CheckedFrameRef src, return_value_policy, handle) {
-    return pybind11::cast(static_cast<flom::Frame>(src));
-  }
-};
-} // namespace detail
-} // namespace pybind11
-
 namespace flom_py {
 
 namespace py = pybind11;
@@ -66,6 +42,14 @@ void define_ranges(py::module &m) {
       .def("__iter__", [](flom::KeyframeRange &range) {
         return py::make_iterator(range.begin(), range.end());
       });
+
+  py::class_<flom::CheckedFrameRef>(m, "CheckedFrameRef")
+      .def("get",
+           [](const flom::CheckedFrameRef &f) {
+             return static_cast<flom::Frame>(f);
+           })
+      .def("set",
+           [](flom::CheckedFrameRef &ref, const flom::Frame &f) { ref = f; });
 }
 
 } // namespace flom_py
