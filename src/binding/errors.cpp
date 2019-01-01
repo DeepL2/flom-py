@@ -26,21 +26,19 @@
 namespace flom_py {
 
 namespace py = pybind11;
+namespace errs = flom::errors;
 
 void define_errors(py::module &m) {
-  py::register_exception<flom::errors::InvalidTimeError>(m, "InvalidTimeError");
-  py::register_exception<flom::errors::OutOfFramesError>(m, "OutOfFramesError");
-  py::register_exception<flom::errors::KeyframeNotFoundError>(
-      m, "KeyframeNotFoundError");
-  py::register_exception<flom::errors::ParseError>(m, "ParseError");
-  py::register_exception<flom::errors::SerializationError>(
-      m, "SerializationError");
-  py::register_exception<flom::errors::JSONLoadError>(m, "JSONLoadError");
-  py::register_exception<flom::errors::JSONDumpError>(m, "JSONDumpError");
-  py::register_exception<flom::errors::InvalidFrameError>(m,
-                                                          "InvalidFrameError");
-  py::register_exception<flom::errors::InitKeyframeError>(m,
-                                                          "InitKeyframeError");
+  py::register_exception<errs::InvalidTimeError>(m, "InvalidTimeError");
+  py::register_exception<errs::OutOfFramesError>(m, "OutOfFramesError");
+  py::register_exception<errs::KeyframeNotFoundError>(m,
+                                                      "KeyframeNotFoundError");
+  py::register_exception<errs::ParseError>(m, "ParseError");
+  py::register_exception<errs::SerializationError>(m, "SerializationError");
+  py::register_exception<errs::JSONLoadError>(m, "JSONLoadError");
+  py::register_exception<errs::JSONDumpError>(m, "JSONDumpError");
+  py::register_exception<errs::InvalidFrameError>(m, "InvalidFrameError");
+  py::register_exception<errs::InitKeyframeError>(m, "InitKeyframeError");
 }
 
 } // namespace flom_py
