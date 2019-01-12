@@ -39,6 +39,7 @@ void define_errors(py::module &m) {
   py::register_exception<errs::JSONDumpError>(m, "JSONDumpError");
   py::register_exception<errs::InvalidFrameError>(m, "InvalidFrameError");
   py::register_exception<errs::InitKeyframeError>(m, "InitKeyframeError");
+  py::register_exception<errs::InitKeyframeError>(m, "InvaildWeightError");
 }
 
 } // namespace flom_py

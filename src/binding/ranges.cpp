@@ -46,7 +46,8 @@ void define_ranges(py::module &m) {
   py::class_<flom::CheckedFrameRef>(m, "CheckedFrameRef")
       .def("get",
            [](const flom::CheckedFrameRef &f) {
-             return static_cast<flom::Frame>(f);
+             // TODO: Return directly as value
+             return std::make_unique<flom::Frame>(f);
            })
       .def("set",
            [](flom::CheckedFrameRef &ref, const flom::Frame &f) { ref = f; });
