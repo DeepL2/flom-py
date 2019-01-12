@@ -72,6 +72,15 @@ void define_effector(py::module &m) {
       .def(py::self - py::self);
 
   py::class_<flom::Location>(m, "Location")
+      .def(py::init<>())
+      .def(py::init([](const py::array_t<double> &ary) {
+        auto *data = ary.data();
+        flom::Location::value_type vec;
+        boost::qvm::X(vec) = data[0];
+        boost::qvm::Y(vec) = data[1];
+        boost::qvm::Z(vec) = data[2];
+        return flom::Location{vec};
+      }))
       .def_property("vector",
                     [](flom::Location const &l) {
                       py::array_t<double> ret(3);
@@ -100,6 +109,16 @@ void define_effector(py::module &m) {
       .def(py::self *= std::size_t());
 
   py::class_<flom::Rotation>(m, "Rotation")
+      .def(py::init<>())
+      .def(py::init([](const py::array_t<double> &ary) {
+        auto *data = ary.data();
+        flom::Rotation::value_type quat;
+        boost::qvm::S(quat) = data[0];
+        boost::qvm::X(quat) = data[1];
+        boost::qvm::Y(quat) = data[2];
+        boost::qvm::Z(quat) = data[3];
+        return flom::Rotation{quat};
+      }))
       .def_property("quaternion",
                     [](flom::Rotation const &l) {
                       py::array_t<double> ret(4);
