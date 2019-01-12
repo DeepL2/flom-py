@@ -43,15 +43,7 @@ void define_effector(py::module &m) {
                     [](const flom::Effector &eff) { return eff.rotation(); },
                     &flom::Effector::set_rotation)
       .def(py::self == py::self)
-      .def(py::self != py::self)
-      .def(py::self += py::self)
-      .def(py::self + py::self)
-      .def(py::self -= py::self)
-      .def(py::self - py::self)
-      .def(py::self *= double())
-      .def(py::self * double())
-      .def(py::self *= float())
-      .def(py::self * float());
+      .def(py::self != py::self);
 
   py::class_<flom::Location>(m, "Location")
       .def_property("vector",

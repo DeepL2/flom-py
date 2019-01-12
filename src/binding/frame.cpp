@@ -41,15 +41,7 @@ void define_frame(py::module &m) {
       .def("joint_names", &flom::Frame::joint_names)
       .def("effector_names", &flom::Frame::effector_names)
       .def(py::self == py::self)
-      .def(py::self != py::self)
-      .def(py::self += py::self)
-      .def(py::self + py::self)
-      .def(py::self -= py::self)
-      .def(py::self - py::self)
-      .def(py::self *= double())
-      .def(py::self * double())
-      .def(py::self *= float())
-      .def(py::self * float());
+      .def(py::self != py::self);
 }
 
 } // namespace flom_py
