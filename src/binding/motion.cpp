@@ -32,8 +32,10 @@ namespace py = pybind11;
 
 void define_motion(py::module &m) {
   py::class_<flom::EffectorType>(m, "EffectorType")
-      .def_readwrite("location", &flom::EffectorType::location)
-      .def_readwrite("rotation", &flom::EffectorType::rotation);
+      .def_property("location", &flom::EffectorType::location,
+                    &flom::EffectorType::set_location)
+      .def_property("rotation", &flom::EffectorType::rotation,
+                    &flom::EffectorType::set_rotation);
 
   m.def("load", [](std::string const &filename) {
     std::ifstream f(filename, std::ios::binary);
