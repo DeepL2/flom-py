@@ -76,7 +76,11 @@ void define_motion(py::module &m) {
              motion.dump_json(f);
            })
       .def("dump_json_string", &flom::Motion::dump_json_string)
-      .def("frame_at", &flom::Motion::frame_at)
+      .def("frame_at",
+           [](const flom::Motion &m, double t) {
+             // TODO: Return directly as value
+             return std::make_unique<flom::Frame>(m.frame_at(t));
+           })
       .def("frames", &flom::Motion::frames)
       .def("loop", &flom::Motion::loop)
       .def("set_loop", &flom::Motion::set_loop)
@@ -87,7 +91,11 @@ void define_motion(py::module &m) {
       .def("length", &flom::Motion::length)
       .def("joint_names", &flom::Motion::joint_names)
       .def("effector_names", &flom::Motion::effector_names)
-      .def("new_keyframe", &flom::Motion::new_keyframe)
+      .def("new_keyframe",
+           [](const flom::Motion &m) {
+             // TODO: Return directly as value
+             return std::make_unique<flom::Frame>(m.new_keyframe());
+           })
       .def("insert_keyframe", &flom::Motion::insert_keyframe, py::arg("t"),
            py::arg("frame"))
       .def("delete_keyframe", &flom::Motion::delete_keyframe, py::arg("t"),
