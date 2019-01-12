@@ -42,6 +42,7 @@ void define_effector(py::module &m) {
       .def_property_readonly(
           "rotation",
           [](const flom::EffectorDifference &eff) { return eff.rotation(); })
+      .def("is_compatible", &flom::EffectorDifference::is_compatible)
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self + py::self)
@@ -59,6 +60,13 @@ void define_effector(py::module &m) {
       .def_property("rotation",
                     [](const flom::Effector &eff) { return eff.rotation(); },
                     &flom::Effector::set_rotation)
+      .def("clear_location", &flom::Effector::clear_location)
+      .def("clear_rotation", &flom::Effector::clear_rotation)
+      .def("new_compatible_effector", &flom::Effector::new_compatible_effector)
+      .def("is_compatible", py::overload_cast<const flom::Effector &>(
+                                &flom::Effector::is_compatible, py::const_))
+      .def("is_compatible", py::overload_cast<const flom::EffectorDifference &>(
+                                &flom::Effector::is_compatible, py::const_))
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self - py::self);
