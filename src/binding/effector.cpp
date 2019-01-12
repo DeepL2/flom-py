@@ -80,7 +80,14 @@ void define_effector(py::module &m) {
                       boost::qvm::Z(vec) = data[2];
                       l.set_vector(vec);
                     })
-      .def(py::self == py::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self)
+      .def(py::self + py::self)
+      .def(py::self += py::self)
+      .def(py::self - py::self)
+      .def(py::self -= py::self)
+      .def(py::self * std::size_t())
+      .def(py::self *= std::size_t());
 
   py::class_<flom::Rotation>(m, "Rotation")
       .def_property("quaternion",
@@ -103,7 +110,14 @@ void define_effector(py::module &m) {
                       boost::qvm::Z(quat) = data[3];
                       l.set_quaternion(quat);
                     })
-      .def(py::self == py::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self)
+      .def(py::self + py::self)
+      .def(py::self += py::self)
+      .def(py::self - py::self)
+      .def(py::self -= py::self)
+      .def(py::self * std::size_t())
+      .def(py::self *= std::size_t());
 }
 
 } // namespace flom_py
