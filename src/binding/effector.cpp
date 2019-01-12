@@ -51,6 +51,8 @@ void define_effector(py::module &m) {
 
   py::class_<flom::Effector>(m, "Effector")
       .def(py::init<>())
+      .def(py::init<const std::optional<flom::Location> &,
+                    const std::optional<flom::Rotation> &>())
       .def_property("location",
                     [](const flom::Effector &eff) { return eff.location(); },
                     &flom::Effector::set_location)

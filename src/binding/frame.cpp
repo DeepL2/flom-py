@@ -47,6 +47,8 @@ void define_frame(py::module &m) {
 
   py::class_<flom::Frame>(m, "Frame")
       .def(py::init<>())
+      .def(py::init<const std::unordered_map<std::string, double> &,
+                    const std::unordered_map<std::string, flom::Effector> &>())
       .def_property("positions",
                     [](const flom::Frame &frame) { return frame.positions(); },
                     &flom::Frame::set_positions)
