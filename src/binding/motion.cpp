@@ -41,14 +41,18 @@ void define_motion(py::module &m) {
       .def_property("location", &flom::EffectorType::location,
                     &flom::EffectorType::set_location)
       .def_property("rotation", &flom::EffectorType::rotation,
-                    &flom::EffectorType::set_rotation);
+                    &flom::EffectorType::set_rotation)
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 
   py::class_<flom::EffectorWeight>(m, "EffectorWeight")
       .def(py::init<double, double>())
       .def_property("location", &flom::EffectorWeight::location,
                     &flom::EffectorWeight::set_location)
       .def_property("rotation", &flom::EffectorWeight::rotation,
-                    &flom::EffectorWeight::set_rotation);
+                    &flom::EffectorWeight::set_rotation)
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 
   m.def("load", [](std::string const &filename) {
     std::ifstream f(filename, std::ios::binary);
@@ -106,7 +110,8 @@ void define_motion(py::module &m) {
       .def("is_valid", &flom::Motion::is_valid)
       .def("effector_weight", &flom::Motion::effector_weight)
       .def("set_effector_weight", &flom::Motion::set_effector_weight)
-      .def(py::self == py::self);
+      .def(py::self == py::self)
+      .def(py::self != py::self);
 }
 
 } // namespace flom_py
