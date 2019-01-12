@@ -102,6 +102,8 @@ void define_motion(py::module &m) {
            py::arg("loose") = true)
       .def("keyframes", &flom::Motion::keyframes)
       .def("clear_keyframes", &flom::Motion::clear_keyframes)
+      .def("is_valid_frame", &flom::Motion::is_valid_frame)
+      .def("is_valid", &flom::Motion::is_valid)
       .def("effector_weight", &flom::Motion::effector_weight)
       .def("set_effector_weight", &flom::Motion::set_effector_weight)
       .def(py::self == py::self);
