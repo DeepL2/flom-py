@@ -81,7 +81,7 @@ with open("README.md") as f:
 
 setup(
     name='flom',
-    version='0.2',
+    version='0.3.1',
     author='coord.e',
     author_email='me@coord-e.com',
     description='flom: Motion exchange format',
