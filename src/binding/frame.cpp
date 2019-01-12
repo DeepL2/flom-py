@@ -67,7 +67,14 @@ void define_frame(py::module &m) {
                                 &flom::Frame::is_compatible, py::const_))
       .def(py::self == py::self)
       .def(py::self != py::self)
-      .def(py::self - py::self);
+      .def(py::self - py::self)
+      .def("__add__",
+           [](const flom::Frame &f, const flom::FrameDifference &diff) {
+             return f + diff;
+           })
+      .def("__iadd__", [](flom::Frame &f, const flom::FrameDifference &diff) {
+        return f += diff;
+      });
 }
 
 } // namespace flom_py

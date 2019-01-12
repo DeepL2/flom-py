@@ -69,7 +69,15 @@ void define_effector(py::module &m) {
                                 &flom::Effector::is_compatible, py::const_))
       .def(py::self == py::self)
       .def(py::self != py::self)
-      .def(py::self - py::self);
+      .def(py::self - py::self)
+      .def("__add__",
+           [](const flom::Effector &e, const flom::EffectorDifference &diff) {
+             return e + diff;
+           })
+      .def("__iadd__",
+           [](flom::Effector &e, const flom::EffectorDifference &diff) {
+             return e += diff;
+           });
 
   py::class_<flom::Location>(m, "Location")
       .def(py::init<>())
