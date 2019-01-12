@@ -30,6 +30,17 @@ namespace flom_py {
 namespace py = pybind11;
 
 void define_frame(py::module &m) {
+  py::class_<flom::FrameDifference>(m, "FrameDifference")
+      .def(py::init<const flom::Frame &, const flom::Frame &>())
+      .def_property_readonly(
+          "positions",
+          [](const flom::FrameDifference &frame) { return frame.positions(); })
+      .def_property_readonly(
+          "effectors",
+          [](const flom::FrameDifference &frame) { return frame.effectors(); })
+      .def(py::self == py::self)
+      .def(py::self != py::self);
+
   py::class_<flom::Frame>(m, "Frame")
       .def(py::init<>())
       .def_property("positions",
