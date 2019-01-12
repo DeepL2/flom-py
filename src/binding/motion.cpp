@@ -49,8 +49,9 @@ void define_motion(py::module &m) {
 
   py::class_<flom::Motion>(m, "Motion")
       .def(py::init<std::unordered_set<std::string>,
-                    std::unordered_set<std::string>, std::string>(),
-           py::arg("joint_names"), py::arg("effector_names"), py::arg("model"))
+                    std::unordered_map<std::string, flom::EffectorType>,
+                    std::string>(),
+           py::arg("joint_names"), py::arg("effector_types"), py::arg("model"))
       .def("dump",
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename, std::ios::binary);
@@ -69,7 +70,6 @@ void define_motion(py::module &m) {
       .def("model_id", &flom::Motion::model_id)
       .def("set_model_id", &flom::Motion::set_model_id)
       .def("effector_type", &flom::Motion::effector_type)
-      .def("set_effector_type", &flom::Motion::set_effector_type)
       .def("is_in_range_at", &flom::Motion::is_in_range_at)
       .def("length", &flom::Motion::length)
       .def("joint_names", &flom::Motion::joint_names)

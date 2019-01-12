@@ -36,8 +36,12 @@ namespace py = pybind11;
 void define_effector(py::module &m) {
   py::class_<flom::Effector>(m, "Effector")
       .def(py::init<>())
-      .def_property("location", [](const flom::Effector& eff) { return eff.location(); }, &flom::Effector::set_location)
-      .def_property("rotation", [](const flom::Effector& eff) { return eff.rotation(); }, &flom::Effector::set_rotation)
+      .def_property("location",
+                    [](const flom::Effector &eff) { return eff.location(); },
+                    &flom::Effector::set_location)
+      .def_property("rotation",
+                    [](const flom::Effector &eff) { return eff.rotation(); },
+                    &flom::Effector::set_rotation)
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self += py::self)
@@ -75,7 +79,7 @@ void define_effector(py::module &m) {
                     [](flom::Rotation const &l) {
                       py::array_t<double> ret(4);
                       auto *data = ret.mutable_data();
-                      auto const& quat = l.quaternion();
+                      auto const &quat = l.quaternion();
                       data[0] = boost::qvm::S(quat);
                       data[1] = boost::qvm::X(quat);
                       data[2] = boost::qvm::Y(quat);
