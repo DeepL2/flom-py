@@ -38,6 +38,7 @@ void define_frame(py::module &m) {
       .def_property_readonly(
           "effectors",
           [](const flom::FrameDifference &frame) { return frame.effectors(); })
+      .def("is_compatible", &flom::FrameDifference::is_compatible)
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self + py::self)
@@ -57,6 +58,13 @@ void define_frame(py::module &m) {
                     &flom::Frame::set_effectors)
       .def("joint_names", &flom::Frame::joint_names)
       .def("effector_names", &flom::Frame::effector_names)
+      .def("set_position", &flom::Frame::set_position)
+      .def("set_effector", &flom::Frame::set_effector)
+      .def("new_compatible_frame", &flom::Frame::new_compatible_frame)
+      .def("is_compatible", py::overload_cast<const flom::Frame &>(
+                                &flom::Frame::is_compatible, py::const_))
+      .def("is_compatible", py::overload_cast<const flom::FrameDifference &>(
+                                &flom::Frame::is_compatible, py::const_))
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self - py::self);
