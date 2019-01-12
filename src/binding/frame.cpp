@@ -39,7 +39,11 @@ void define_frame(py::module &m) {
           "effectors",
           [](const flom::FrameDifference &frame) { return frame.effectors(); })
       .def(py::self == py::self)
-      .def(py::self != py::self);
+      .def(py::self != py::self)
+      .def(py::self + py::self)
+      .def(py::self += py::self)
+      .def(py::self * std::size_t())
+      .def(py::self *= std::size_t());
 
   py::class_<flom::Frame>(m, "Frame")
       .def(py::init<>())
@@ -52,7 +56,8 @@ void define_frame(py::module &m) {
       .def("joint_names", &flom::Frame::joint_names)
       .def("effector_names", &flom::Frame::effector_names)
       .def(py::self == py::self)
-      .def(py::self != py::self);
+      .def(py::self != py::self)
+      .def(py::self - py::self);
 }
 
 } // namespace flom_py
