@@ -34,6 +34,21 @@ namespace flom_py {
 namespace py = pybind11;
 
 void define_effector(py::module &m) {
+  py::class_<flom::EffectorDifference>(m, "EffectorDifference")
+      .def(py::init<const flom::Effector &, const flom::Effector &>())
+      .def_property_readonly(
+          "location",
+          [](const flom::EffectorDifference &eff) { return eff.location(); })
+      .def_property_readonly(
+          "rotation",
+          [](const flom::EffectorDifference &eff) { return eff.rotation(); })
+      .def(py::self == py::self)
+      .def(py::self != py::self)
+      .def(py::self + py::self)
+      .def(py::self += py::self)
+      .def(py::self * std::size_t())
+      .def(py::self *= std::size_t());
+
   py::class_<flom::Effector>(m, "Effector")
       .def(py::init<>())
       .def_property("location",
@@ -43,7 +58,8 @@ void define_effector(py::module &m) {
                     [](const flom::Effector &eff) { return eff.rotation(); },
                     &flom::Effector::set_rotation)
       .def(py::self == py::self)
-      .def(py::self != py::self);
+      .def(py::self != py::self)
+      .def(py::self - py::self);
 
   py::class_<flom::Location>(m, "Location")
       .def_property("vector",
