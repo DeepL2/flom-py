@@ -43,6 +43,13 @@ void define_motion(py::module &m) {
       .def_property("rotation", &flom::EffectorType::rotation,
                     &flom::EffectorType::set_rotation);
 
+  py::class_<flom::EffectorWeight>(m, "EffectorWeight")
+      .def(py::init<double, double>())
+      .def_property("location", &flom::EffectorWeight::location,
+                    &flom::EffectorWeight::set_location)
+      .def_property("rotation", &flom::EffectorWeight::rotation,
+                    &flom::EffectorWeight::set_rotation);
+
   m.def("load", [](std::string const &filename) {
     std::ifstream f(filename, std::ios::binary);
     return flom::Motion::load(f);
