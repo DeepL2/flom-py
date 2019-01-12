@@ -32,6 +32,12 @@ namespace py = pybind11;
 
 void define_motion(py::module &m) {
   py::class_<flom::EffectorType>(m, "EffectorType")
+      .def(py::init<const flom::CoordinateSystem &,
+                    const flom::CoordinateSystem &>())
+      .def("clear_location", &flom::EffectorType::clear_location)
+      .def("clear_rotation", &flom::EffectorType::clear_rotation)
+      .def("new_effector", &flom::EffectorType::new_effector)
+      .def("is_compatible", &flom::EffectorType::is_compatible)
       .def_property("location", &flom::EffectorType::location,
                     &flom::EffectorType::set_location)
       .def_property("rotation", &flom::EffectorType::rotation,
