@@ -106,7 +106,7 @@ void define_motion(py::module &m) {
            py::arg("frame"))
       .def("delete_keyframe", &flom::Motion::delete_keyframe, py::arg("t"),
            py::arg("loose") = true)
-      .def("keyframes", &flom::Motion::keyframes)
+      .def("keyframes", &flom::Motion::const_keyframes)
       .def("clear_keyframes", &flom::Motion::clear_keyframes)
       .def("is_valid_frame", &flom::Motion::is_valid_frame)
       .def("is_valid", &flom::Motion::is_valid)
