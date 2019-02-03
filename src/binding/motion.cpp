@@ -17,6 +17,8 @@
 // along with flom-py.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <fstream>
+
 #include <flom/motion.hpp>
 #include <flom/range.hpp>
 
