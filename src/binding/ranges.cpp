@@ -47,15 +47,6 @@ void define_ranges(py::module &m) {
       .def("__iter__", [](const flom::ConstKeyframeRange &range) {
         return py::make_iterator(range.begin(), range.end());
       });
-
-  py::class_<flom::CheckedFrameRef>(m, "CheckedFrameRef")
-      .def("get",
-           [](const flom::CheckedFrameRef &f) {
-             // TODO: Return directly as value
-             return std::make_unique<flom::Frame>(f);
-           })
-      .def("set",
-           [](flom::CheckedFrameRef &ref, const flom::Frame &f) { ref = f; });
 }
 
 } // namespace flom_py
