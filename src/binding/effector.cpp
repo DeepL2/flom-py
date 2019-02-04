@@ -19,6 +19,7 @@
 
 #include <flom/effector.hpp>
 
+#include <pybind11/eigen.h>
 #include <pybind11/numpy.h>
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
@@ -78,24 +79,10 @@ void define_effector(py::module &m) {
 
   py::class_<flom::Location>(m, "Location")
       .def(py::init<>())
-      .def(py::init([](const py::array_t<double> &ary) {
-        auto *data = ary.data();
-        return flom::Location{data[0], data[1], data[2]};
-      }))
-      .def_property("vector",
-                    [](flom::Location const &l) {
-                      py::array_t<double> ret(3);
-                      auto *data = ret.mutable_data();
-                      auto const &vec = l.vector();
-                      data[0] = vec.x();
-                      data[1] = vec.y();
-                      data[2] = vec.z();
-                      return ret;
-                    },
-                    [](flom::Location &l, py::array_t<double> const &ary) {
-                      auto *data = ary.data();
-                      l.set_xyz(data[0], data[1], data[2]);
-                    })
+      .def(py::init<const flom::Location::value_type &>())
+      .def_property("vector", &flom::Location::vector,
+                    &flom::Location::set_vector,
+                    py::return_value_policy::reference_internal)
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self + py::self)
@@ -107,25 +94,10 @@ void define_effector(py::module &m) {
 
   py::class_<flom::Rotation>(m, "Rotation")
       .def(py::init<>())
-      .def(py::init([](const py::array_t<double> &ary) {
-        auto *data = ary.data();
-        return flom::Rotation{data[0], data[1], data[2], data[3]};
-      }))
-      .def_property("quaternion",
-                    [](flom::Rotation const &l) {
-                      py::array_t<double> ret(4);
-                      auto *data = ret.mutable_data();
-                      auto const &quat = l.quaternion();
-                      data[0] = quat.w();
-                      data[1] = quat.x();
-                      data[2] = quat.y();
-                      data[3] = quat.z();
-                      return ret;
-                    },
-                    [](flom::Rotation &l, py::array_t<double> const &ary) {
-                      auto *data = ary.data();
-                      l.set_wxyz(data[0], data[1], data[2], data[3]);
-                    })
+      .def(py::init<const flom::Rotation::value_type &>())
+      .def_property("quaternion", &flom::Rotation::quaternion,
+                    &flom::Rotation::set_quaternion,
+                    py::return_value_policy::reference_internal)
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self + py::self)
