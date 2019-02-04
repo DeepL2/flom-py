@@ -72,6 +72,7 @@ void define_motion(py::module &m) {
                     std::unordered_map<std::string, flom::EffectorType>,
                     std::string>(),
            py::arg("joint_names"), py::arg("effector_types"), py::arg("model"))
+      .def(py::init<const flom::Motion &>())
       .def("dump",
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename, std::ios::binary);
