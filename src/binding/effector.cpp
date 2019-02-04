@@ -104,7 +104,9 @@ void define_effector(py::module &m) {
       .def(py::init<>())
       .def(py::init<double, double, double, double>(), py::arg("w"),
            py::arg("x"), py::arg("y"), py::arg("z"))
-      .def(py::init<const flom::Rotation::value_type &>())
+      .def(py::init([](const Eigen::Vector4d &coeffs) {
+        return flom::Rotation{Eigen::Quaternion<double>(coeffs)};
+      }))
       .def_property(
           "quaternion",
           [](const flom::Rotation &rot) { return rot.quaternion().coeffs(); },
