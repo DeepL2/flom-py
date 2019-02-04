@@ -26,13 +26,7 @@
 #include <pybind11/stl.h>
 
 #include "declarations.hpp"
-
-namespace pybind11::detail {
-
-template <typename T>
-struct type_caster<boost::optional<T>> : optional_caster<boost::optional<T>> {};
-
-} // namespace pybind11::detail
+#include "optional_caster.hpp"
 
 namespace flom_py {
 

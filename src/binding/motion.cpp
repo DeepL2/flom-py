@@ -27,6 +27,7 @@
 #include <pybind11/stl.h>
 
 #include "declarations.hpp"
+#include "optional_caster.hpp"
 
 namespace flom_py {
 
