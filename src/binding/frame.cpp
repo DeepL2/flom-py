@@ -32,6 +32,7 @@ namespace py = pybind11;
 void define_frame(py::module &m) {
   py::class_<flom::FrameDifference>(m, "FrameDifference")
       .def(py::init<const flom::Frame &, const flom::Frame &>())
+      .def(py::init<const flom::FrameDifference &>())
       .def_property_readonly(
           "positions",
           [](const flom::FrameDifference &frame) { return frame.positions(); })
@@ -50,6 +51,7 @@ void define_frame(py::module &m) {
       .def(py::init<>())
       .def(py::init<const std::unordered_map<std::string, double> &,
                     const std::unordered_map<std::string, flom::Effector> &>())
+      .def(py::init<const flom::Frame &>())
       .def_property("positions",
                     [](const flom::Frame &frame) { return frame.positions(); },
                     &flom::Frame::set_positions)

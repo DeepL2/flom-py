@@ -35,6 +35,7 @@ namespace py = pybind11;
 void define_effector(py::module &m) {
   py::class_<flom::EffectorDifference>(m, "EffectorDifference")
       .def(py::init<const flom::Effector &, const flom::Effector &>())
+      .def(py::init<const flom::EffectorDifference &>())
       .def_property_readonly(
           "location",
           [](const flom::EffectorDifference &eff) { return eff.location(); })
@@ -53,6 +54,7 @@ void define_effector(py::module &m) {
       .def(py::init<>())
       .def(py::init<const flom::compat::optional<flom::Location> &,
                     const flom::compat::optional<flom::Rotation> &>())
+      .def(py::init<const flom::Effector &>())
       .def_property("location",
                     [](const flom::Effector &eff) { return eff.location(); },
                     &flom::Effector::set_location)
@@ -83,6 +85,7 @@ void define_effector(py::module &m) {
       .def(py::init<double, double, double>(), py::arg("x"), py::arg("y"),
            py::arg("z"))
       .def(py::init<const flom::Location::value_type &>())
+      .def(py::init<const flom::Location &>())
       .def_property("vector", &flom::Location::vector,
                     &flom::Location::set_vector,
                     py::return_value_policy::reference_internal)
@@ -107,6 +110,7 @@ void define_effector(py::module &m) {
       .def(py::init([](const Eigen::Vector4d &coeffs) {
         return flom::Rotation{Eigen::Quaternion<double>(coeffs)};
       }))
+      .def(py::init<const flom::Rotation &>())
       .def_property(
           "quaternion",
           [](const flom::Rotation &rot) { return rot.quaternion().coeffs(); },
