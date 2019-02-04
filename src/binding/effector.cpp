@@ -27,6 +27,13 @@
 
 #include "declarations.hpp"
 
+namespace pybind11::detail {
+
+template <typename T>
+struct type_caster<boost::optional<T>> : optional_caster<boost::optional<T>> {};
+
+} // namespace pybind11::detail
+
 namespace flom_py {
 
 namespace py = pybind11;
