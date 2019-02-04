@@ -102,9 +102,13 @@ void define_effector(py::module &m) {
   py::class_<flom::Rotation>(m, "Rotation")
       .def(py::init<>())
       .def(py::init<const flom::Rotation::value_type &>())
-      .def_property("quaternion", &flom::Rotation::quaternion,
-                    &flom::Rotation::set_quaternion,
-                    py::return_value_policy::reference_internal)
+      .def_property(
+          "quaternion",
+          [](const flom::Rotation &rot) { return rot.quaternion().coeffs(); },
+          [](flom::Rotation &rot, const Eigen::Vector4d &coeffs) {
+            rot.set_quaternion(Eigen::Quaternion<double>(coeffs));
+          },
+          py::return_value_policy::reference_internal)
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self + py::self)
