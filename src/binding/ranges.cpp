@@ -34,7 +34,7 @@ void define_ranges(py::module &m) {
       });
 
   py::class_<flom::FrameRange>(m, "FrameRange")
-      .def("__iter__", [](flom::FrameRange &range) {
+      .def("__iter__", [](const flom::FrameRange &range) {
         return py::make_iterator(range.begin(), range.end());
       });
 
