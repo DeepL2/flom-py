@@ -38,6 +38,9 @@ elseif(CONFIG STREQUAL "Release")
   add_compile_options(-O3)
 endif()
 
+find_package(flom REQUIRED)
+include_directories(${flom_INCLUDE_DIR})
+
 add_subdirectory(third_party/pybind11)
 # pybind11 headers produce so many errors with strict compiler options
 include_directories(SYSTEM ${PYBIND11_INCLUDE_DIR})

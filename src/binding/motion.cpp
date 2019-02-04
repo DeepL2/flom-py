@@ -17,6 +17,8 @@
 // along with flom-py.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <fstream>
+
 #include <flom/motion.hpp>
 #include <flom/range.hpp>
 
@@ -25,6 +27,7 @@
 #include <pybind11/stl.h>
 
 #include "declarations.hpp"
+#include "optional_caster.hpp"
 
 namespace flom_py {
 
@@ -32,8 +35,8 @@ namespace py = pybind11;
 
 void define_motion(py::module &m) {
   py::class_<flom::EffectorType>(m, "EffectorType")
-      .def(py::init<std::optional<flom::CoordinateSystem>,
-                    std::optional<flom::CoordinateSystem>>())
+      .def(py::init<flom::compat::optional<flom::CoordinateSystem>,
+                    flom::compat::optional<flom::CoordinateSystem>>())
       .def("clear_location", &flom::EffectorType::clear_location)
       .def("clear_rotation", &flom::EffectorType::clear_rotation)
       .def("new_effector", &flom::EffectorType::new_effector)
@@ -104,7 +107,7 @@ void define_motion(py::module &m) {
            py::arg("frame"))
       .def("delete_keyframe", &flom::Motion::delete_keyframe, py::arg("t"),
            py::arg("loose") = true)
-      .def("keyframes", &flom::Motion::keyframes)
+      .def("keyframes", &flom::Motion::const_keyframes)
       .def("clear_keyframes", &flom::Motion::clear_keyframes)
       .def("is_valid_frame", &flom::Motion::is_valid_frame)
       .def("is_valid", &flom::Motion::is_valid)

@@ -19,15 +19,14 @@
 
 #include <flom/effector.hpp>
 
+#include <pybind11/eigen.h>
 #include <pybind11/numpy.h>
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-#include <boost/qvm/quat_access.hpp>
-#include <boost/qvm/vec_access.hpp>
-
 #include "declarations.hpp"
+#include "optional_caster.hpp"
 
 namespace flom_py {
 
@@ -52,8 +51,8 @@ void define_effector(py::module &m) {
 
   py::class_<flom::Effector>(m, "Effector")
       .def(py::init<>())
-      .def(py::init<const std::optional<flom::Location> &,
-                    const std::optional<flom::Rotation> &>())
+      .def(py::init<const flom::compat::optional<flom::Location> &,
+                    const flom::compat::optional<flom::Rotation> &>())
       .def_property("location",
                     [](const flom::Effector &eff) { return eff.location(); },
                     &flom::Effector::set_location)
@@ -81,32 +80,17 @@ void define_effector(py::module &m) {
 
   py::class_<flom::Location>(m, "Location")
       .def(py::init<>())
-      .def(py::init([](const py::array_t<double> &ary) {
-        auto *data = ary.data();
-        flom::Location::value_type vec;
-        boost::qvm::X(vec) = data[0];
-        boost::qvm::Y(vec) = data[1];
-        boost::qvm::Z(vec) = data[2];
-        return flom::Location{vec};
-      }))
-      .def_property("vector",
-                    [](flom::Location const &l) {
-                      py::array_t<double> ret(3);
-                      auto *data = ret.mutable_data();
-                      auto const &vec = l.vector();
-                      data[0] = boost::qvm::X(vec);
-                      data[1] = boost::qvm::Y(vec);
-                      data[2] = boost::qvm::Z(vec);
-                      return ret;
-                    },
-                    [](flom::Location &l, py::array_t<double> const &ary) {
-                      auto *data = ary.data();
-                      flom::Location::value_type vec;
-                      boost::qvm::X(vec) = data[0];
-                      boost::qvm::Y(vec) = data[1];
-                      boost::qvm::Z(vec) = data[2];
-                      l.set_vector(vec);
-                    })
+      .def(py::init<double, double, double>(), py::arg("x"), py::arg("y"),
+           py::arg("z"))
+      .def(py::init<const flom::Location::value_type &>())
+      .def_property("vector", &flom::Location::vector,
+                    &flom::Location::set_vector,
+                    py::return_value_policy::reference_internal)
+      .def_property("x", &flom::Location::x, &flom::Location::set_x)
+      .def_property("y", &flom::Location::y, &flom::Location::set_y)
+      .def_property("z", &flom::Location::z, &flom::Location::set_z)
+      .def("xyz", &flom::Location::xyz)
+      .def("set_xyz", &flom::Location::set_xyz)
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self + py::self)
@@ -118,35 +102,24 @@ void define_effector(py::module &m) {
 
   py::class_<flom::Rotation>(m, "Rotation")
       .def(py::init<>())
-      .def(py::init([](const py::array_t<double> &ary) {
-        auto *data = ary.data();
-        flom::Rotation::value_type quat;
-        boost::qvm::S(quat) = data[0];
-        boost::qvm::X(quat) = data[1];
-        boost::qvm::Y(quat) = data[2];
-        boost::qvm::Z(quat) = data[3];
-        return flom::Rotation{quat};
+      .def(py::init<double, double, double, double>(), py::arg("w"),
+           py::arg("x"), py::arg("y"), py::arg("z"))
+      .def(py::init([](const Eigen::Vector4d &coeffs) {
+        return flom::Rotation{Eigen::Quaternion<double>(coeffs)};
       }))
-      .def_property("quaternion",
-                    [](flom::Rotation const &l) {
-                      py::array_t<double> ret(4);
-                      auto *data = ret.mutable_data();
-                      auto const &quat = l.quaternion();
-                      data[0] = boost::qvm::S(quat);
-                      data[1] = boost::qvm::X(quat);
-                      data[2] = boost::qvm::Y(quat);
-                      data[3] = boost::qvm::Z(quat);
-                      return ret;
-                    },
-                    [](flom::Rotation &l, py::array_t<double> const &ary) {
-                      auto *data = ary.data();
-                      flom::Rotation::value_type quat;
-                      boost::qvm::S(quat) = data[0];
-                      boost::qvm::X(quat) = data[1];
-                      boost::qvm::Y(quat) = data[2];
-                      boost::qvm::Z(quat) = data[3];
-                      l.set_quaternion(quat);
-                    })
+      .def_property(
+          "quaternion",
+          [](const flom::Rotation &rot) { return rot.quaternion().coeffs(); },
+          [](flom::Rotation &rot, const Eigen::Vector4d &coeffs) {
+            rot.set_quaternion(Eigen::Quaternion<double>(coeffs));
+          },
+          py::return_value_policy::reference_internal)
+      .def_property_readonly("w", &flom::Rotation::w)
+      .def_property_readonly("x", &flom::Rotation::x)
+      .def_property_readonly("y", &flom::Rotation::y)
+      .def_property_readonly("z", &flom::Rotation::z)
+      .def("wxyz", &flom::Rotation::wxyz)
+      .def("set_wxyz", &flom::Rotation::set_wxyz)
       .def(py::self == py::self)
       .def(py::self != py::self)
       .def(py::self + py::self)

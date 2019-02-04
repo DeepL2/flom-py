@@ -19,6 +19,7 @@
 
 cmake_minimum_required(VERSION 3.7)
 
-pybind11_add_module(flom MODULE binding.cpp interpolate.cpp enums.cpp motion.cpp effector.cpp ranges.cpp frame.cpp errors.cpp)
-target_link_libraries(flom PRIVATE -lflom)
-enable_clang_format(flom)
+pybind11_add_module(flom_py MODULE binding.cpp interpolate.cpp enums.cpp motion.cpp effector.cpp ranges.cpp frame.cpp errors.cpp)
+set_target_properties(flom_py PROPERTIES OUTPUT_NAME flom)
+target_link_libraries(flom_py PRIVATE ${flom_LIBRARIES})
+enable_clang_format(flom_py)

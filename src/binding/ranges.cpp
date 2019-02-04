@@ -34,7 +34,7 @@ void define_ranges(py::module &m) {
       });
 
   py::class_<flom::FrameRange>(m, "FrameRange")
-      .def("__iter__", [](flom::FrameRange &range) {
+      .def("__iter__", [](const flom::FrameRange &range) {
         return py::make_iterator(range.begin(), range.end());
       });
 
@@ -43,14 +43,10 @@ void define_ranges(py::module &m) {
         return py::make_iterator(range.begin(), range.end());
       });
 
-  py::class_<flom::CheckedFrameRef>(m, "CheckedFrameRef")
-      .def("get",
-           [](const flom::CheckedFrameRef &f) {
-             // TODO: Return directly as value
-             return std::make_unique<flom::Frame>(f);
-           })
-      .def("set",
-           [](flom::CheckedFrameRef &ref, const flom::Frame &f) { ref = f; });
+  py::class_<flom::ConstKeyframeRange>(m, "ConstKeyframeRange")
+      .def("__iter__", [](const flom::ConstKeyframeRange &range) {
+        return py::make_iterator(range.begin(), range.end());
+      });
 }
 
 } // namespace flom_py
