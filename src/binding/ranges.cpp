@@ -43,6 +43,11 @@ void define_ranges(py::module &m) {
         return py::make_iterator(range.begin(), range.end());
       });
 
+  py::class_<flom::ConstKeyframeRange>(m, "ConstKeyframeRange")
+      .def("__iter__", [](const flom::ConstKeyframeRange &range) {
+        return py::make_iterator(range.begin(), range.end());
+      });
+
   py::class_<flom::CheckedFrameRef>(m, "CheckedFrameRef")
       .def("get",
            [](const flom::CheckedFrameRef &f) {
