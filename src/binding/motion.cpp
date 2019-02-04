@@ -37,6 +37,7 @@ void define_motion(py::module &m) {
   py::class_<flom::EffectorType>(m, "EffectorType")
       .def(py::init<flom::compat::optional<flom::CoordinateSystem>,
                     flom::compat::optional<flom::CoordinateSystem>>())
+      .def(py::init<const flom::EffectorType &>())
       .def("clear_location", &flom::EffectorType::clear_location)
       .def("clear_rotation", &flom::EffectorType::clear_rotation)
       .def("new_effector", &flom::EffectorType::new_effector)
@@ -50,6 +51,7 @@ void define_motion(py::module &m) {
 
   py::class_<flom::EffectorWeight>(m, "EffectorWeight")
       .def(py::init<double, double>())
+      .def(py::init<const flom::EffectorWeight &>())
       .def_property("location", &flom::EffectorWeight::location,
                     &flom::EffectorWeight::set_location)
       .def_property("rotation", &flom::EffectorWeight::rotation,
@@ -72,6 +74,7 @@ void define_motion(py::module &m) {
                     std::unordered_map<std::string, flom::EffectorType>,
                     std::string>(),
            py::arg("joint_names"), py::arg("effector_types"), py::arg("model"))
+      .def(py::init<const flom::Motion &>())
       .def("dump",
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename, std::ios::binary);
