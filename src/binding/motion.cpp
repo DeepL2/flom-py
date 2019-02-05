@@ -61,10 +61,16 @@ void define_motion(py::module &m) {
 
   m.def("load", [](std::string const &filename) {
     std::ifstream f(filename, std::ios::binary);
+    if (!f) {
+      throw std::runtime_error("Could not open \"" + filename + "\"");
+    }
     return flom::Motion::load(f);
   });
   m.def("load_json", [](std::string const &filename) {
     std::ifstream f(filename);
+    if (!f) {
+      throw std::runtime_error("Could not open \"" + filename + "\"");
+    }
     return flom::Motion::load_json(f);
   });
   m.def("load_json_string", &flom::Motion::load_json_string);
@@ -78,11 +84,17 @@ void define_motion(py::module &m) {
       .def("dump",
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename, std::ios::binary);
+             if (!f) {
+               throw std::runtime_error("Could not open \"" + filename + "\"");
+             }
              motion.dump(f);
            })
       .def("dump_json",
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename);
+             if (!f) {
+               throw std::runtime_error("Could not open \"" + filename + "\"");
+             }
              motion.dump_json(f);
            })
       .def("dump_json_string", &flom::Motion::dump_json_string)
