@@ -31,6 +31,12 @@
 
 namespace flom_py {
 
+class FileOpenError : public std::runtime_error {
+public:
+  explicit FileOpenError(const std::string &path)
+      : std::runtime_error("Could not open \"" + path + "\"") {}
+};
+
 namespace py = pybind11;
 
 void define_motion(py::module &m) {
@@ -62,14 +68,14 @@ void define_motion(py::module &m) {
   m.def("load", [](std::string const &filename) {
     std::ifstream f(filename, std::ios::binary);
     if (!f) {
-      throw std::runtime_error("Could not open \"" + filename + "\"");
+      throw FileOpenError(filename);
     }
     return flom::Motion::load(f);
   });
   m.def("load_json", [](std::string const &filename) {
     std::ifstream f(filename);
     if (!f) {
-      throw std::runtime_error("Could not open \"" + filename + "\"");
+      throw FileOpenError(filename);
     }
     return flom::Motion::load_json(f);
   });
@@ -85,7 +91,7 @@ void define_motion(py::module &m) {
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename, std::ios::binary);
              if (!f) {
-               throw std::runtime_error("Could not open \"" + filename + "\"");
+               throw FileOpenError(filename);
              }
              motion.dump(f);
            })
@@ -93,7 +99,7 @@ void define_motion(py::module &m) {
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename);
              if (!f) {
-               throw std::runtime_error("Could not open \"" + filename + "\"");
+               throw FileOpenError(filename);
              }
              motion.dump_json(f);
            })
