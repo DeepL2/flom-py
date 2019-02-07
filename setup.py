@@ -81,11 +81,12 @@ with open("README.md") as f:
 
 setup(
     name='flom',
-    version='0.3.1',
+    version='0.4.2',
     author='coord.e',
     author_email='me@coord-e.com',
-    description='flom: Motion exchange format',
+    description='flom: a library to handle keyframed motion of robots',
     long_description=long_description,
+    long_description_content_type='text/markdown',
     ext_modules=[CMakeExtension('flom', './src/')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
