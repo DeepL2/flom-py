@@ -17,6 +17,8 @@
 // along with flom-py.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+#include <fstream>
+
 #include <flom/motion.hpp>
 #include <flom/range.hpp>
 
@@ -25,15 +27,23 @@
 #include <pybind11/stl.h>
 
 #include "declarations.hpp"
+#include "optional_caster.hpp"
 
 namespace flom_py {
+
+class FileOpenError : public std::runtime_error {
+public:
+  explicit FileOpenError(const std::string &path)
+      : std::runtime_error("Could not open \"" + path + "\"") {}
+};
 
 namespace py = pybind11;
 
 void define_motion(py::module &m) {
   py::class_<flom::EffectorType>(m, "EffectorType")
-      .def(py::init<std::optional<flom::CoordinateSystem>,
-                    std::optional<flom::CoordinateSystem>>())
+      .def(py::init<flom::compat::optional<flom::CoordinateSystem>,
+                    flom::compat::optional<flom::CoordinateSystem>>())
+      .def(py::init<const flom::EffectorType &>())
       .def("clear_location", &flom::EffectorType::clear_location)
       .def("clear_rotation", &flom::EffectorType::clear_rotation)
       .def("new_effector", &flom::EffectorType::new_effector)
@@ -47,6 +57,7 @@ void define_motion(py::module &m) {
 
   py::class_<flom::EffectorWeight>(m, "EffectorWeight")
       .def(py::init<double, double>())
+      .def(py::init<const flom::EffectorWeight &>())
       .def_property("location", &flom::EffectorWeight::location,
                     &flom::EffectorWeight::set_location)
       .def_property("rotation", &flom::EffectorWeight::rotation,
@@ -56,10 +67,16 @@ void define_motion(py::module &m) {
 
   m.def("load", [](std::string const &filename) {
     std::ifstream f(filename, std::ios::binary);
+    if (!f) {
+      throw FileOpenError(filename);
+    }
     return flom::Motion::load(f);
   });
   m.def("load_json", [](std::string const &filename) {
     std::ifstream f(filename);
+    if (!f) {
+      throw FileOpenError(filename);
+    }
     return flom::Motion::load_json(f);
   });
   m.def("load_json_string", &flom::Motion::load_json_string);
@@ -69,14 +86,21 @@ void define_motion(py::module &m) {
                     std::unordered_map<std::string, flom::EffectorType>,
                     std::string>(),
            py::arg("joint_names"), py::arg("effector_types"), py::arg("model"))
+      .def(py::init<const flom::Motion &>())
       .def("dump",
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename, std::ios::binary);
+             if (!f) {
+               throw FileOpenError(filename);
+             }
              motion.dump(f);
            })
       .def("dump_json",
            [](flom::Motion const &motion, std::string const &filename) {
              std::ofstream f(filename);
+             if (!f) {
+               throw FileOpenError(filename);
+             }
              motion.dump_json(f);
            })
       .def("dump_json_string", &flom::Motion::dump_json_string)
@@ -104,7 +128,7 @@ void define_motion(py::module &m) {
            py::arg("frame"))
       .def("delete_keyframe", &flom::Motion::delete_keyframe, py::arg("t"),
            py::arg("loose") = true)
-      .def("keyframes", &flom::Motion::keyframes)
+      .def("keyframes", &flom::Motion::const_keyframes)
       .def("clear_keyframes", &flom::Motion::clear_keyframes)
       .def("is_valid_frame", &flom::Motion::is_valid_frame)
       .def("is_valid", &flom::Motion::is_valid)

@@ -20,7 +20,7 @@
 cmake_minimum_required(VERSION 3.7)
 cmake_policy(SET CMP0048 NEW)
 
-project(flom-py VERSION 0.1 LANGUAGES CXX)
+project(flom-py VERSION 0.4.2 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -37,6 +37,9 @@ if(CONFIG STREQUAL "Debug")
 elseif(CONFIG STREQUAL "Release")
   add_compile_options(-O3)
 endif()
+
+find_package(flom REQUIRED)
+include_directories(${flom_INCLUDE_DIR})
 
 add_subdirectory(third_party/pybind11)
 # pybind11 headers produce so many errors with strict compiler options
